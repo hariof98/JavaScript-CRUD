@@ -3,8 +3,8 @@ displayData();
 //localStorage.clear();
 
 function processData(e){
-    let fname = document.getElementById("fname").value;
-    let lname = document.getElementById("lname").value;
+    let fname  = document.getElementById("fname").value;
+    let lname  = document.getElementById("lname").value;
     let mobile = document.getElementById("mobile").value;
     if(fname == '' || lname == ''){
         document.getElementById("msg").innerHTML = "* Please Enter Both First Name and Last Name";
@@ -47,8 +47,8 @@ function processData(e){
         else{
             let arr = getLocalStorage();
             arr[id]['First Name'] = fname;
-            arr[id]['Last Name'] = lname;
-            arr[id]['Mobile'] = mobile;
+            arr[id]['Last Name']  = lname;
+            arr[id]['Mobile']     = mobile;
             console.log(id);
             setLocalStorage(arr);
             document.getElementById("msg").innerHTML = "Data Updated";
@@ -59,27 +59,32 @@ function processData(e){
 }   
 
 function displayData(){
-    let arr = getLocalStorage();  
-    //console.log(arr);
-    if(arr != null){
-        var row = document.createElement('td');
-        let html = '';
-        for(var list =0;  list<=arr.length; list++){
-            html=html+ `<tr>
-                <td>${arr[list]["First Name"]} ${arr[list]["Last Name"]} </td>
-                <td>${arr[list]["Mobile"]}</td>
-                <td><a href="javascript:;" onclick="editData(${list});">Edit</a>/<a href="javascript:void(0)" onclick="deleteData(${list});">Delete</a></td>
-            </tr>`
-            document.getElementById('root').innerHTML= html;
+    let arr = getLocalStorage();
+    //console.log(arr[0]);
+    try {
+        if(arr != null){
+            let html = '';
+            for(var list =0;  list<=arr.length; list++){
+                html=html+ `<tr>
+                    <td>${arr[list]["First Name"]} ${arr[list]["Last Name"]} </td>
+                    <td>${arr[list]["Mobile"]}</td>
+                    <td><a href="javascript:;" onclick="editData(${list});">Edit</a> / <a href="javascript:void(0)" onclick="deleteData(${list});">Delete</a></td>
+                </tr>`
+                document.getElementById('root').innerHTML= html;
+            }
         }
-        console.log(row);
-        document.getElementById('root').appendChild = row;
+    }
+    catch(err) {
+        var myVar = setTimeout(() => {
+            console.log(err);
+        }, 3000);
+        clearTimeout(myVar);
     }
 }
 
 function resetFormData(){
-    document.getElementById("fname").value = '';
-    document.getElementById("lname").value = '';
+    document.getElementById("fname").value  = '';
+    document.getElementById("lname").value  = '';
     document.getElementById("mobile").value = '';
 }
 
@@ -91,10 +96,11 @@ function deleteData(myid){
 }
 
 function editData(myid){
+    console.log(myid);
     id = myid;
     let arr = getLocalStorage();     
     document.getElementById("fname").value  = arr[myid]['First Name'];
-    document.getElementById("lname").value = arr[myid]['Last Name'];
+    document.getElementById("lname").value  = arr[myid]['Last Name'];
     document.getElementById("mobile").value = arr[myid]["Mobile"];
     
 }
